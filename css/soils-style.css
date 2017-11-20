@@ -1,0 +1,19 @@
+.yadcf-filter.form-control.filter-control {
+	width: 75%;
+	display: inline-block;
+}
+
+.yadcf-filter-reset-button {
+	display: inline-block;
+}
+
+.commButton {
+  color: green;
+  cursor: pointer;
+}
+
+.btn.btn-default, .woocommerce #respond input#submit, .woocommerce a.button,
+.woocommerce button.button, .woocommerce input.button {
+  color: #222!important;
+  text-transform: none!important;
+}
