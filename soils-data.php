@@ -45,13 +45,18 @@ if ( ! defined( 'WPINC' ) ) {
 add_action('wp_enqueue_scripts','soils_scripts');
 function soils_scripts() {
 	wp_enqueue_style( 'soils-style', plugin_dir_url( __FILE__ ) .'/css/soils-style.css',array(),time() );
-  wp_enqueue_style( 'dataTables-style', plugin_dir_url( __FILE__ ) .'/js/DataTables/datatables.min.css',array(),"4.7" );
-  wp_enqueue_script( 'dataTables-script', plugin_dir_url( __FILE__ ) . '/js/DataTables/datatables.min.js', array( 'jquery' ), "4.7", true );
+  // wp_enqueue_style( 'dataTables-style', plugin_dir_url( __FILE__ ) .'js/DataTables/datatables.min.css',array(),"4.7" );
+  // wp_enqueue_script( 'dataTables-script', plugin_dir_url( __FILE__ ) . 'js/DataTables/datatables.min.js', array( 'jquery' ), "4.7", true );
 
+  wp_enqueue_script('dataTables-script', plugin_dir_url(__FILE__) . 'js/DataTables/datatables.min.js',array(),"4.8", true);
+  wp_enqueue_style('dataTables-style',plugin_dir_url(__FILE__) . 'js/DataTables/datatables.min.css',array(),"4.8");
 
-  wp_enqueue_script( 'yadtcf-script', plugin_dir_url( __FILE__ ) . '/js/yadtcf/jquery.dataTables.yadcf.js', array( 'jquery' ), "4.7", true );
-  wp_enqueue_script( 'datatables-editor', plugin_dir_url( __FILE__ ) . '/js/Editor-PHP-1.6.5/js/dataTables.editor.min.js', array( 'jquery' ), "4.7", true );
-  wp_enqueue_style( 'dataTables-editor-style', plugin_dir_url( __FILE__ ) .'/js/Editor-PHP-1.6.5/css/editor.dataTables.min.css',array(),"4.7" );
+  wp_enqueue_script( 'yadtcf-script', plugin_dir_url( __FILE__ ) . 'js/yadtcf/jquery.dataTables.yadcf.js', array( 'jquery' ), "4.8", true );
+  // wp_enqueue_script( 'datatables-editor', plugin_dir_url( __FILE__ ) . 'js/Editor-PHP-1.6.5/js/dataTables.editor.min.js', array( 'jquery' ), "4.7", true );
+  // wp_enqueue_script( 'datatables-bootstrap-editor', plugin_dir_url( __FILE__ ) . 'js/Editor-PHP-1.6.5/js/editor.bootstrap.min.js', array( 'jquery' ), "4.7", true );
+
+  // wp_enqueue_style( 'dataTables-editor-style', plugin_dir_url( __FILE__ ) .'js/Editor-PHP-1.6.5/css/editor.dataTables.min.css',array(),"4.7" );
+  // wp_enqueue_style( 'dataTables-editor-boostrap-style', plugin_dir_url( __FILE__ ) .'js/Editor-PHP-1.6.5/css/editor.bootstrap.min.css',array(),"4.7" );
 
 
 
@@ -60,7 +65,7 @@ function soils_scripts() {
   //if template is soilsdash, enqueue the js file
   if(is_page_template('templates/page-template-soilsdash.php')) {
 
-    wp_enqueue_script( 'soils-script', plugin_dir_url( __FILE__ ) . '/js/soils.js', array( 'jquery' ), time(), true );
+    wp_enqueue_script( 'soils-script', plugin_dir_url( __FILE__ ) . 'js/soils.js', array( 'jquery' ), time(), true );
 
     //Setup the parameters for "localising" the javascript. (i.e. passing values into the javascript)
     $params = array(
@@ -76,9 +81,35 @@ function soils_scripts() {
   //if template is communities...
   if(is_page_template('templates/page-template-communities.php')) {
 
-    wp_enqueue_script( 'communities-script', plugin_dir_url( __FILE__ ) . '/js/communities.js', array( 'jquery' ), time(), true );
-    wp_enqueue_script( 'print-js-script','https://printjs-4de6.kxcdn.com/print.min.js', array( 'jquery' ), time(), true );
-    wp_enqueue_style( 'print-js-style', 'https://printjs-4de6.kxcdn.com/print.min.css',array(),"4.7" );
+    wp_enqueue_script( 'communities-script', plugin_dir_url( __FILE__ ) . 'js/communities.js', array( 'jquery' ), time(), true );
+    wp_enqueue_script( 'farms-script', plugin_dir_url( __FILE__ ) . 'js/farms.js', array( 'jquery' ), time(), true );
+
+    wp_enqueue_script( 'print-js-script',plugin_dir_url( __FILE__ ) . 'js/pdfmake.js', array( 'jquery' ), time(), true );
+    wp_enqueue_script( 'print-fonts-js-script',plugin_dir_url( __FILE__ ) . 'js/vfs_fonts.js', array( 'jquery' ), time(), true );
+
+    // wp_enqueue_style( 'print-js-style', 'https://printjs-4de6.kxcdn.com/print.min.css',array(),"4.7" );
+
+    //also enqueue the print-js scripts:
+    // <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+
+    //Setup the parameters for "localising" the javascript. (i.e. passing values into the javascript)
+    $params = array(
+      'editorurl' => plugin_dir_url(__FILE__) . 'ajax',
+      'ajaxurl' => admin_url( 'admin-ajax.php' ),
+      'pa_nonce' => wp_create_nonce('pa_nonce')
+    );
+
+    //localise!
+    wp_localize_script('communities-script','vars',$params);
+
+  }
+
+    //if template is soils...
+  if(is_page_template('templates/page-template-soilsdash.php')) {
+
+    wp_enqueue_script( 'soils-script', plugin_dir_url( __FILE__ ) . 'js/soils.js', array( 'jquery' ), time(), true );
+    // wp_enqueue_script( 'print-js-script','https://printjs-4de6.kxcdn.com/print.min.js', array( 'jquery' ), time(), true );
+    // wp_enqueue_style( 'print-js-style', 'https://printjs-4de6.kxcdn.com/print.min.css',array(),"4.7" );
 
     //also enqueue the print-js scripts:
     
@@ -91,7 +122,7 @@ function soils_scripts() {
     );
 
     //localise!
-    wp_localize_script('communities-script','vars',$params);
+    wp_localize_script('soils-script','vars',$params);
 
   }
 }

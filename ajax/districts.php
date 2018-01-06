@@ -23,30 +23,28 @@ use
   DataTables\Editor\Validate;
 
 // Build our Editor instance and process the data coming from _POST
-Editor::inst( $db, 'communities' )
+Editor::inst( $db, 'districts' )
   ->fields(
-    Field::inst( 'communities.id' )->validator( 'Validate::notEmpty' ),
-    Field::inst( 'communities.community_code' )->validator( 'Validate::notEmpty' ),
-    Field::inst( 'communities.community_label' )->validator( 'Validate::notEmpty'),
-    
-    Field::inst( 'communities.district_id' )->validator('Validate::notEmpty')
+    Field::inst( 'districts.id' )->validator( 'Validate::notEmpty' ),
+    Field::inst( 'districts.district_code' )->validator( 'Validate::notEmpty' ),
+    Field::inst( 'districts.district_label' )->validator( 'Validate::notEmpty'),
+    Field::inst( 'districts.country_id' )->validator('Validate::notEmpty')
       ->options( Options::inst()
-        ->table('districts')
+        ->table('countries')
         ->value('id')
-        ->label('district_label')
+        ->label('country_label')
       ),
-    Field::inst('districts.district_label'),
-   Field::inst( 'communities.project' )->validator('Validate::notEmpty')
+    Field::inst('countries.country_label'),
+    Field::inst( 'districts.project' )->validator('Validate::notEmpty')
       ->options( Options::inst()
         ->table('wp_bp_groups')
         ->value('id')
         ->label('name')
       ),
     Field::inst('wp_bp_groups.name')
-
   )
-  ->leftJoin('districts','districts.id', '=','communities.district_id')
-  ->leftJoin('wp_bp_groups','wp_bp_groups.id', '=','communities.project')
+  ->leftJoin('countries','countries.id', '=','districts.country_id')
+    ->leftJoin('wp_bp_groups','wp_bp_groups.id', '=','districts.project')
 
   ->process( $_POST )
   ->json();

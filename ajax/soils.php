@@ -5,7 +5,7 @@
  */
 
 // DataTables PHP library
-include( "../js/Editor-PHP-1.6.5/php/DataTables.php" );
+include( "../js/DataTables/Editor-1.6.5/php/DataTables.php" );
 
 // Alias Editor classes so they are easy to use
 use
@@ -24,19 +24,24 @@ Editor::inst( $db, 'samples' )
     Field::inst( 'samples.sampling_date' ),
     Field::inst( 'samples.collector_name' ),
     Field::inst( 'samples.sampling_depth' ),
-    Field::inst( 'samples.sample_comments' ),
-    Field::inst( 'samples.plot_id'),
-    Field::inst('plots.plot_name'),
-    Field::inst('plots.plot_gradient'),
-    Field::inst('plots.soil_texture'),
-    Field::inst('plots.farmer_kn_soil'),
-    Field::inst('plots.latitude'),
-    Field::inst('plots.longitude'),
-    Field::inst('plots.altitude'),
-    Field::inst('plots.accuracy')
+    Field::inst( 'samples.sample_comments' )
+    //Field::inst( 'samples.farmer_id'),
+    // Field::inst('samples.plot_name'),
+    // Field::inst('samples.plot_gradient'),
+    // Field::inst('samples.soil_texture'),
+    // Field::inst('samples.farmer_kn_soil'),
+    // Field::inst('samples.latitude'),
+    // Field::inst('samples.longitude'),
+    // Field::inst('samples.altitude'),
+    // Field::inst('samples.accuracy'),
+    // Field::inst('farmers.farmer_code'),
+    // Field::inst('farmers.farmer_name'),
+    // Field::inst('communities.community_code'),
+    // Field::inst('communities.community_label'),
+    // Field::inst('farmers.community_id')
   )
-
-  ->leftJoin('plots','plots.id', '=','samples.plot_id')
+  ->leftJoin('farmers','farmers.id', '=','samples.farmer_id')
+  ->leftJoin('communities','communities.id','=','farmers.community_id')
   ->join(
     Mjoin::inst('analysis_poxc')
     ->link('samples.id','analysis_poxc.sample_id')

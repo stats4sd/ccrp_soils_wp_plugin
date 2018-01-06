@@ -1,26 +1,104 @@
-var editor;
+var editorDistrict;
+var editorCommunity;
 jQuery(document).ready(function($){
 	console.log("stats4sd-js Starting again");
 
-  //setup editor for DataTables
-  editor = new $.fn.dataTable.Editor( {
+  //setup editor for Districts
+  editorDistrict = new $.fn.dataTable.Editor( {
+        ajax: vars.editorurl + "/districts.php",
+        display: 'bootstrap',
+        table: "#districtTable",
+        fields: [
+              {
+                label: "Project:",
+                info: "For test projects, select Research Methods or Soils",
+                name: "districts.project",
+                type: "select",
+                placeholder: "select project"
+            },
+            {
+                label: "District_Code:",
+                name: "districts.district_code"
+            }, {
+                label: "District Label:",
+                name: "districts.district_label"
+            }, {
+                label: "Country:",
+                name: "districts.country_id",
+                type: "select",
+                placeholder: "Select a Country"
+            }
+        ]
+    } );
+
+  //setup editor for Communities
+  editorCommunity = new $.fn.dataTable.Editor( {
         ajax: vars.editorurl + "/communities.php",
+        display: 'bootstrap',
         table: "#communityTable",
         fields: [
+                      {
+                label: "Project:",
+                info: "For test projects, select Research Methods or Soils",
+                name: "communities.project",
+                type: "select",
+                placeholder: "select project"
+            },
+
+
             {
                 label: "Community_code:",
                 name: "communities.community_code"
             }, {
                 label: "Community Label:",
                 name: "communities.community_label"
-            }, {
-                label: "Country:",
-                name: "communities.country_id",
+            }, 
+            {
+                label: "District:",
+                name: "communities.district_id",
                 type: "select",
-                placeholder: "Select a Country"
+                placeholder: "Select a District"
             }
         ]
     } );
+
+  // Handle SQL error generated when a duplicate community code is spotted: 
+  
+  editorDistrict.on('postSubmit', function ( e, json, data, action) {
+    console.log('submitted post');
+    if(json.error) {
+        console.log('sql error noticed');
+          var codeField = this.field('district.district_code');
+          console.log(json)
+          var sqlDupKey = json.error;
+          console.log("sqlerror = ", sqlDupKey)
+
+          //if error is for a duplicate Community Code, display error: 
+          if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("district_code")) {
+            codeField.error('This Code already exists in the database. Please choose a different code');
+            //hide default display of error code. 
+            json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
+          }
+        }
+  })
+
+    editorCommunity.on('postSubmit', function ( e, json, data, action) {
+    console.log('submitted post');
+    if(json.error) {
+        console.log('sql error noticed');
+          var codeField = this.field('communities.community_code');
+          console.log(json)
+          var sqlDupKey = json.error;
+          console.log("sqlerror = ", sqlDupKey)
+
+          //if error is for a duplicate Community Code, display error: 
+          if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("community_code")) {
+            codeField.error('This Code already exists in the database. Please choose a different code');
+            //hide default display of error code. 
+            json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
+          }
+        }
+  })
 
     var communityTable = $('#communityTable').DataTable({
       dom: "Bfrtip",
@@ -31,27 +109,69 @@ jQuery(document).ready(function($){
          }, "className":"trPlus"},
         { data: "communities.community_code", title: "Code" },
         { data: "communities.community_label", title: "Community Name" },
-        { data: "countries.country_label", title: "Country Label" }
+        { data: "districts.district_label", title: "District Label" },
+        { data: "wp_bp_groups.name", title: "Project" }
+
       ],
       select: true,
         buttons: [
-            { extend: "create", editor: editor },
-            { extend: "edit",   editor: editor },
-            { extend: "remove", editor: editor }
+            { extend: "create", editor: editorCommunity },
+            { extend: "edit",   editor: editorCommunity },
+            // { extend: "remove", editor: editor }
+        ]
+    });
+
+    var districtTable = $('#districtTable').DataTable({
+      dom: "Bfrtip",
+      ajax: vars.editorurl + "/districts.php",
+      columns: [
+        { data: "id", title: "More Info", render: function(data,type,row,meta){
+           return "<span class='fa fa-plus-circle commButton' id='" + data + "'></span>";
+         }, "className":"trPlus"},
+        { data: "districts.district_code", title: "District Code" },
+        { data: "districts.district_label", title: "District Name" },
+        { data: "countries.country_label", title: "Country Label" },
+        { data: "wp_bp_groups.name", title: "Project" },
+
+      ],
+      select: true,
+        buttons: [
+            { extend: "create", editor: editorDistrict },
+            { extend: "edit",   editor: editorDistrict },
+            // { extend: "remove", editor: editor }
         ]
     });
 
     yadcf.init(communityTable, [
-          {
+                    {
             column_number: 3,
-            filter_container_id: "countryFilter",
+            filter_container_id: "community_districtFilter",
             filter_type:"select",
-            filter_default_label:"Select Country",
+            filter_default_label:"Select District",
+            style_class:"form-control filter-control",
+            filter_reset_button_text:"Reset"
+          },
+                              {
+            column_number: 4,
+            filter_container_id: "community_projectFilter",
+            filter_type:"select",
+            filter_default_label:"Select Project",
+            style_class:"form-control filter-control",
+            filter_reset_button_text:"Reset"
+          }
+
+          ]);
+
+    yadcf.init(districtTable, [
+                    {
+            column_number: 4,
+            filter_container_id: "district_projectFilter",
+            filter_type:"select",
+            filter_default_label:"Select Project",
             style_class:"form-control filter-control",
             filter_reset_button_text:"Reset"
           }
           ]);
-
         //setup child-row activation:
 
         $('#communityTable tbody').on('click', 'td.trPlus', function () {
@@ -216,3 +336,27 @@ function commChildRow(data) {
     });
 
 }
+
+function commChildRow(data) {
+  //get barode to display:
+  console.log(data.samples.id)
+          $.ajax({
+            url: vars.ajaxurl,
+            "type":'POST',
+            "dataType":"json",
+            "data":{
+              "action": 'get_single_barcode',
+              "nonce": vars.pa_nonce,
+              "value": data.samples.id
+            },
+            success: function(response) {
+              ress = response.data;
+              console.log("create_barcode response",ress);
+              $('#child-row-'+data.samples.id).html("<img src="+ress+"></img>");
+              // $('#child-row-'+community_id).append("<div>new barcode: <img src='"+data+"'></img></div>");
+            },
+            error: function(response){
+              $('#child-row-'+data.samples.id).html("error");
+            }
+          });
+  }
