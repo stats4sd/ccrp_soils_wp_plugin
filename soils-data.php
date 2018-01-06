@@ -33,37 +33,22 @@ if ( ! defined( 'WPINC' ) ) {
 
 
 
-//Require the libraries defined and managed by Composer.
-// // Currently this is GuzzleHttp/Guzzle, which is a nice way of doing HTTP APi requests.
-// require_once 'vendor/autoload.php';
-// use AJT\Toggl\TogglClient;
-// use GuzzleHttp\Client;
-
 
 //enqueue the styles and scripts for this plugin.
 //This includes a downloaded (static) version of DataTables and YADCF (yet-another-datatables-column-filter). This is to enable this plugin to function independantly of whether (or when) those jquery libraries change.
 add_action('wp_enqueue_scripts','soils_scripts');
 function soils_scripts() {
+
 	wp_enqueue_style( 'soils-style', plugin_dir_url( __FILE__ ) .'/css/soils-style.css',array(),time() );
-  // wp_enqueue_style( 'dataTables-style', plugin_dir_url( __FILE__ ) .'js/DataTables/datatables.min.css',array(),"4.7" );
-  // wp_enqueue_script( 'dataTables-script', plugin_dir_url( __FILE__ ) . 'js/DataTables/datatables.min.js', array( 'jquery' ), "4.7", true );
+  //select 2 scripts: 
+  
+  wp_enqueue_style('select2-style',"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css","4.0.6");
+  wp_enqueue_script('select2-script',"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js",array('jquery'),"4.0.6",true);
 
-  wp_enqueue_script('dataTables-script', plugin_dir_url(__FILE__) . 'js/DataTables/datatables.min.js',array(),"4.8", true);
-  wp_enqueue_style('dataTables-style',plugin_dir_url(__FILE__) . 'js/DataTables/datatables.min.css',array(),"4.8");
-
-  wp_enqueue_script( 'yadtcf-script', plugin_dir_url( __FILE__ ) . 'js/yadtcf/jquery.dataTables.yadcf.js', array( 'jquery' ), "4.8", true );
-  // wp_enqueue_script( 'datatables-editor', plugin_dir_url( __FILE__ ) . 'js/Editor-PHP-1.6.5/js/dataTables.editor.min.js', array( 'jquery' ), "4.7", true );
-  // wp_enqueue_script( 'datatables-bootstrap-editor', plugin_dir_url( __FILE__ ) . 'js/Editor-PHP-1.6.5/js/editor.bootstrap.min.js', array( 'jquery' ), "4.7", true );
-
-  // wp_enqueue_style( 'dataTables-editor-style', plugin_dir_url( __FILE__ ) .'js/Editor-PHP-1.6.5/css/editor.dataTables.min.css',array(),"4.7" );
-  // wp_enqueue_style( 'dataTables-editor-boostrap-style', plugin_dir_url( __FILE__ ) .'js/Editor-PHP-1.6.5/css/editor.bootstrap.min.css',array(),"4.7" );
-
-
-
-
+  
   // Different pages have additional scripts, so this section asks what template we're using and then queues the correct scripts for that page.
   //if template is soilsdash, enqueue the js file
-  if(is_page_template('templates/page-template-soilsdash.php')) {
+  if(is_page_template('page-templates/page-template-soilsdash.php')) {
 
     wp_enqueue_script( 'soils-script', plugin_dir_url( __FILE__ ) . 'js/soils.js', array( 'jquery' ), time(), true );
 
@@ -79,13 +64,10 @@ function soils_scripts() {
   } // end if(is soils-dash)
 
   //if template is communities...
-  if(is_page_template('templates/page-template-communities.php')) {
+  if(is_page_template('page-templates/page-template-communities.php')) {
 
     wp_enqueue_script( 'communities-script', plugin_dir_url( __FILE__ ) . 'js/communities.js', array( 'jquery' ), time(), true );
     wp_enqueue_script( 'farms-script', plugin_dir_url( __FILE__ ) . 'js/farms.js', array( 'jquery' ), time(), true );
-
-    wp_enqueue_script( 'print-js-script',plugin_dir_url( __FILE__ ) . 'js/pdfmake.js', array( 'jquery' ), time(), true );
-    wp_enqueue_script( 'print-fonts-js-script',plugin_dir_url( __FILE__ ) . 'js/vfs_fonts.js', array( 'jquery' ), time(), true );
 
     // wp_enqueue_style( 'print-js-style', 'https://printjs-4de6.kxcdn.com/print.min.css',array(),"4.7" );
 
@@ -105,7 +87,7 @@ function soils_scripts() {
   }
 
     //if template is soils...
-  if(is_page_template('templates/page-template-soilsdash.php')) {
+  if(is_page_template('page-templates/page-template-soilsdash.php')) {
 
     wp_enqueue_script( 'soils-script', plugin_dir_url( __FILE__ ) . 'js/soils.js', array( 'jquery' ), time(), true );
     // wp_enqueue_script( 'print-js-script','https://printjs-4de6.kxcdn.com/print.min.js', array( 'jquery' ), time(), true );

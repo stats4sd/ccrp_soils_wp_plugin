@@ -1,5 +1,2 @@
 *.log
-js/DataTables
-js/Editor-PHP-1.6.5
-js/Print.js-1.0.23
-js/yadtcf
+*.DS_Store

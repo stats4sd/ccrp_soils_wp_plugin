@@ -7,7 +7,6 @@
  * @package sparkling-child
  */
 
-acf_form_head();
 get_header(); ?>
 
   <div id="primary" class="content-area">
@@ -62,7 +61,10 @@ if(count($groupid[groups]) > 1) {
   foreach($groupid[groups] as $group) {
     $this_id = $group;
     //echo "<pre>user group id = " . $this_id . "</pre>";
-
+  $district = "district";
+  $community = "community";
+  $farm = "farm";
+  $plot = "plot";
   }
 }
 

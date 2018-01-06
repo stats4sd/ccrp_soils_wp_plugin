@@ -1,7 +1,7 @@
 <?php
 
 // DataTables PHP library
-include( "../js/DataTables/Editor-1.6.5/php/DataTables.php" );
+include( "../../wordpress_datatables/DataTables_Editor/php/DataTables.php" );
 
 
 $communities = $db

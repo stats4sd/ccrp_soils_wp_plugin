@@ -29,3 +29,12 @@
   margin: 0!important;
 /* overflow: hidden; */
 }
+
+
+.navbar-nav {
+  display: inline-block!important;
+}
+
+.navbar.navbar-default .container {
+  display: block!important;
+}
