@@ -39,7 +39,7 @@ if(count($groupid[groups]) == 1) {
 $this_id = current($groupid[groups]);
 
 if($this_id == 3) {
-  $district = "ward";
+  $district = "Network";
   $community = "VBA";
   $farm = "Farmer";
   $plot = "terrace";
