@@ -47,3 +47,9 @@
 #samplesheetmodal {
   top: 50px;
 }
+
+@media print {
+  .print-hide {
+    display: none;
+  }
+}

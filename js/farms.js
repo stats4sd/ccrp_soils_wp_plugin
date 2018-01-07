@@ -10,6 +10,11 @@ jQuery('a[data-toggle="tab"]').on( 'click', function (e) {
     jQuery.fn.dataTable.tables({visible:true,api:true}).columns.adjust();
     } );
 
+jQuery('#community-tabs a').on('click', function (e) {
+  e.preventDefault();
+  jQuery(this).tab('show');
+});
+
   //setup editor for DataTables
   farmEditor = new jQuery.fn.dataTable.Editor( {
         ajax: vars.editorurl + "/farms.php",
@@ -75,7 +80,24 @@ jQuery('a[data-toggle="tab"]').on( 'click', function (e) {
     });
 
 
-
+    yadcf.init(farmTable, [
+                    {
+            column_number: 4,
+            filter_container_id: "farm_projectFilter",
+            filter_type:"select",
+            filter_default_label:"Select Project",
+            style_class:"form-control filter-control",
+            filter_reset_button_text:"Reset"
+          },
+          {
+            column_number: 1,
+            filter_container_id: "farm_communityFilter",
+            filter_type:"select",
+            filter_default_label:"Select Community",
+            style_class:"form-control filter-control",
+            filter_reset_button_text:"Reset"
+          }
+          ]);
 
 
         //setup child-row activation:
@@ -155,8 +177,8 @@ jQuery('a[data-toggle="tab"]').on( 'click', function (e) {
                             code3:codes[3],
                             code4:codes[4],
                             code5:codes[5],
-                            code6:codes[6],
-                            code7:codes[7]
+                            // code6:codes[6],
+                            // code7:codes[7]
                           });
                           jQuery('#sample_sheet').html(rendered);
                           jQuery('#samplesheetmodal').modal('toggle');
@@ -172,7 +194,7 @@ jQuery('a[data-toggle="tab"]').on( 'click', function (e) {
                             correctLevel : QRCode.CorrectLevel.H
                           });
 
-                          for (i=0;i<8;i++) {
+                          for (i=0;i<6;i++) {
                             console.log('code ' + i,code+"00"+i);
                             new QRCode(document.getElementById('code'+i),{
                               text: codes[i],
@@ -188,7 +210,7 @@ jQuery('a[data-toggle="tab"]').on( 'click', function (e) {
                           jQuery('#printbutton_'+code).click(function(){
                             console.log('print button clicked');
                             jQuery('#print_modal_'+code).printElement({
-                              pageTitle:"SampleSheet_"+name+" - "+code
+                              pageTitle:"SampleSheet_"+name+" - "+code,
                             });
                             
   

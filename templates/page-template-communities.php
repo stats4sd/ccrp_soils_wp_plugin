@@ -80,16 +80,16 @@ if(count($groupid[groups]) > 1) {
 
 <div role="tabpanel">
   <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs" role="tablist" id="community-tabs">
 
     <li class='nav-item' class="">
-      <a href="#districts" class='nav-link ' id='districts-tab' data-toggle="tab" role="tab" aria-controls="districts" aria-selected="false"><?php echo $district;?></a>
+      <a href="#districts" class='nav-link active' id='districts-tab' data-toggle="tab" role="tab" aria-controls="districts" aria-selected="false"><?php echo $district;?></a>
     </li>
     <li class='nav-item'>
-      <a href="#communities"  class='nav-link active' id='communities-tab' data-toggle="tab" role="tab" aria-controls="communities" aria-selected="true" ><?php echo $community;?></a>
+      <a href="#communities"  class='nav-link' id='communities-tab' data-toggle="tab" role="tab" aria-controls="communities" aria-selected="true" ><?php echo $community;?></a>
     </li>
     <li class='nav-item'>
-      <a href="#farms" class='nav-link ' id='farms-tab' data-toggle="tab" role="tab" aria-controls="farms" aria-selected="false" ><?php echo $farm;?></a>
+      <a href="#farms" class='nav-link' id='farms-tab' data-toggle="tab" role="tab" aria-controls="farms" aria-selected="false" ><?php echo $farm;?></a>
     </li>
   </ul>
 
@@ -97,28 +97,32 @@ if(count($groupid[groups]) > 1) {
   <div class="tab-content">
 
     <!-- ########### Districts ########### -->
-    <div role="tabpanel" class="tab-pane" id="districts" aria-labelledby="districts-tab">
+    <div role="tabpanel" class="tab-pane fade show active" id="districts" aria-labelledby="districts-tab">
 
       <!-- #### TAB CONTENT ### -->
-      <div id='filters' class='well well-sm' style='margin-top: 15px;'>
-        <h4>Table Filters</h4>
-        <form id='filterDiv' class='form form-horizontal'>
-          <div class='form-group'>
-            <div class='col-sm-3'>
-              <label class='control-label'>Select Project</label>
+      <div id='filters' class='card'>
+        <div class="card-header">
+          <h4>Table Filters</h4>
+        </div>
+        <div class="card-body">
+          <form id='filterDiv' class='form form-horizontal'>
+            <div class='row'>
+              <div class='col-sm-3'>
+                <label class='control-label'>Select Project</label>
+              </div>
+              <div class='col-sm-8'>
+                <div id='district_projectFilter'></div>
+              </div>
             </div>
-            <div class='col-sm-8'>
-              <div id='district_projectFilter'></div>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
       <table id="districtTable" class='table table-striped table-bordered'></table>
     </div>
 
     <!-- ########### Communities ########### -->
-    <div role="tabpanel" class="tab-pane fade show active" id="communities" aria-labelledby="communities-tab">
+    <div role="tabpanel" class="tab-pane fade" id="communities" aria-labelledby="communities-tab">
 
       <!-- #### TAB CONTENT ### -->
       <div class='alert alert-info'>
@@ -128,53 +132,61 @@ if(count($groupid[groups]) > 1) {
           <li class=""><strong>Edit <?php echo $community; ?> Details</strong>: Click on a community in the table to highlight it. Then click the "Edit" button. Edits are synced to the database when you click "submit" in the pop-up form.</li>
         </ul>
       </div>
-      <div id='filters' class='well well-sm' style='margin-top: 15px;'>
-        <h4>Table Filters</h4>
-        <form id='filterDiv' class='form form-horizontal'>
-          <div class='form-group'>
-            <div class='col-sm-3'>
-              <label class='control-label'>Select Project</label>
+      <div id='filters' class='card'>
+        <div class="card-header">
+          <h4>Table Filters</h4>
+        </div>
+        <div class="card-body">
+          <form id='filterDiv' class='form form-horizontal'>
+            <div class='row'>
+              <div class='col-sm-3'>
+                <label class='control-label'>Select Project</label>
+              </div>
+              <div class='col-sm-8'>
+                <div id='community_projectFilter'></div>
+              </div>
             </div>
-            <div class='col-sm-8'>
-              <div id='community_projectFilter'></div>
+            <div class='row'>
+              <div class='col-sm-3'>
+                <label class='control-label'>Select <?php echo $district ?></label>
+              </div>
+              <div class='col-sm-8'>
+                <div id='community_districtFilter'></div>
+              </div>
             </div>
-          </div>
-          <div class='form-group'>
-            <div class='col-sm-3'>
-              <label class='control-label'>Select <?php echo $district ?></label>
-            </div>
-            <div class='col-sm-8'>
-              <div id='community_districtFilter'></div>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
       <table id="communityTable" class='table table-striped table-bordered'></table>
     </div>
 
     <!-- ########### FARMS ########### -->
-    <div role="tabpanel" class="tab-pane" id="farms" aria-labelledby="farms-tab">
-      <div id='filters' class='well well-sm' style='margin-top: 15px;'>
-        <h4>Table Filters</h4>
-        <form id='filterDiv' class='form form-horizontal'>
-          <div class='form-group'>
-            <div class='col-sm-3'>
-              <label class='control-label'>Select Project</label>
+    <div role="tabpanel" class="tab-pane fade" id="farms" aria-labelledby="farms-tab">
+      <div id='filters' class='card'>
+        <div class="card-header">
+          <h4>Table Filters</h4>
+        </div>
+        <div class="card-body">
+          <form id='filterDiv' class='form form-horizontal'>
+            <div class='row'>
+              <div class='col-sm-3'>
+                <label class='control-label'>Select Project</label>
+              </div>
+              <div class='col-sm-8'>
+                <div id='farm_projectFilter'></div>
+              </div>
             </div>
-            <div class='col-sm-8'>
-              <div id='farm_projectFilter'></div>
+             <div class='row'>
+              <div class='col-sm-3'>
+                <label class='control-label'>Select <?php echo $community; ?></label>
+              </div>
+              <div class='col-sm-8'>
+                <div id='farm_communityFilter'></div>
+              </div>
             </div>
-          </div>
-           <div class='form-group'>
-            <div class='col-sm-3'>
-              <label class='control-label'>Select <?php echo $community; ?></label>
-            </div>
-            <div class='col-sm-8'>
-              <div id='farm_communityFilter'></div>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
       <table id="farmTable" class='table table-striped table-bordered'></table>

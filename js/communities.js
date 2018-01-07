@@ -146,7 +146,7 @@ jQuery(document).ready(function($){
                     {
             column_number: 3,
             filter_container_id: "community_districtFilter",
-            filter_type:"select2",
+            filter_type:"select",
             filter_default_label:"Select District",
             style_class:"form-control filter-control",
             filter_reset_button_text:"Reset"
@@ -154,7 +154,7 @@ jQuery(document).ready(function($){
                               {
             column_number: 4,
             filter_container_id: "community_projectFilter",
-            filter_type:"select2",
+            filter_type:"select",
             filter_default_label:"Select Project",
             style_class:"form-control filter-control",
             filter_reset_button_text:"Reset"
@@ -166,7 +166,7 @@ jQuery(document).ready(function($){
                     {
             column_number: 4,
             filter_container_id: "district_projectFilter",
-            filter_type:"select2",
+            filter_type:"select",
             filter_default_label:"Select Project",
             style_class:"form-control filter-control",
             filter_reset_button_text:"Reset"
