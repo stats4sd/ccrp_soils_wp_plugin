@@ -204,6 +204,46 @@ if(count($groupid[groups]) > 1) {
 
 <div id='sample_sheet'></div>
 
+<div id="farm-edit-template">
+  <h4>Add / Edit <?php echo $farm; ?> details</h4>
+  <div data-editor-template="farmers.project"></div>
+  <div data-editor-template="farmers.community_id"></div>
+  <div class="input-group mb-3">
+      <span class="input-group-addon" id="farmer_code_prefix"></span>
+      <input type="text" class="form-control" id="farmer_code_entered" aria-describedby="farmer_code_prefix">
+    </div>
+  <div data-editor-template="farmers.id"></div>
+  <div data-editor-template="farmers.farmer_name"></div>
+</div>
+
+<div id="community-edit-template">
+  <h4>Add / Edit <?php echo $community; ?> details</h4>
+  <div data-editor-template="communities.project"></div>
+  <div data-editor-template="communities.district_id"></div>
+  <div class="input-group mb-3">
+      <span class="input-group-addon" id="community_code_prefix"></span>
+      <input type="text" class="form-control" id="community_code_entered" aria-describedby="community_code_prefix">
+    </div>
+  <div data-editor-template="communities.id"></div>
+  <div data-editor-template="communities.community_label"></div>
+
+</div>
+
+<div id="district-edit-template">
+  <h4>Add / Edit <?php echo $district; ?> details
+    <div data-editor-template="districts.country_id"></div>
+    <div data-editor-template="districts.project"></div>
+    <label for="basic-url">District Code: The prefix is determined by the chosen project</label><!-- label> -->
+    <div class="input-group mb-3">
+      <span class="input-group-addon" id="district_code_prefix"></span>
+      <input type="text" class="form-control" id="district_code_entered" aria-describedby="district_code_prefix">
+    </div>
+    <div data-editor-template="districts.district_code"></div>
+
+    <div data-editor-template="districts.district_label"></div>
+
+</div>
+
       <?php endwhile; // end of the loop. ?>
 
     </main><!-- #main -->

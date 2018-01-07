@@ -3,31 +3,37 @@ var editorCommunity;
 jQuery(document).ready(function($){
 	console.log("stats4sd-js Starting again");
 
+  $("#farms-tab").on("click",function(){
+    prepFarmTab()
+  });
+
   //setup editor for Districts
   editorDistrict = new $.fn.dataTable.Editor( {
         ajax: vars.editorurl + "/districts.php",
-        display: 'bootstrap',
         table: "#districtTable",
+        template: "#district-edit-template",
+        //display: "bootstrap",
         fields: [
               {
                 label: "Project:",
                 info: "For test projects, select Research Methods or Soils",
                 name: "districts.project",
                 type: "select",
-                placeholder: "select project"
+                placeholder: "select project",
             },
             {
                 label: "District_Code:",
-                name: "districts.district_code"
+                name: "districts.id",
+                type: "hidden" //this value is generated from concatenating the project-code and the entered string.
             }, {
                 label: "District Label:",
-                name: "districts.district_label"
+                name: "districts.district_label",
             }, {
                 label: "Country:",
                 name: "districts.country_id",
                 type: "select",
-                placeholder: "Select a Country"
-            }
+                placeholder: "Select a Country",
+             }
         ]
     } );
 
@@ -36,19 +42,20 @@ jQuery(document).ready(function($){
         ajax: vars.editorurl + "/communities.php",
         display: 'bootstrap',
         table: "#communityTable",
+        template: "#community-edit-template",
         fields: [
                       {
                 label: "Project:",
-                info: "For test projects, select Research Methods or Soils",
+                labelInfo: "For test projects, select Research Methods or Soils",
                 name: "communities.project",
                 type: "select",
                 placeholder: "select project"
             },
 
-
             {
                 label: "VBA Code:",
-                name: "communities.community_code"
+                name: "communities.id",
+                type: "hidden"
             }, {
                 label: "Community Representative's Name:",
                 name: "communities.community_label"
@@ -57,7 +64,7 @@ jQuery(document).ready(function($){
                 label: "Network:",
                 name: "communities.district_id",
                 type: "select",
-                placeholder: "Select a Network"
+                placeholder: "Select a Network",
             }
         ]
     } );
@@ -68,36 +75,40 @@ jQuery(document).ready(function($){
     console.log('submitted post');
     if(json.error) {
         console.log('sql error noticed');
-          var codeField = this.field('district.district_code');
+          var codeField = this.field('district.id');
           console.log(json)
           var sqlDupKey = json.error;
           console.log("sqlerror = ", sqlDupKey)
 
           //if error is for a duplicate Community Code, display error: 
-          if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("district_code")) {
+          if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("id")) {
             codeField.error('This Code already exists in the database. Please choose a different code');
             //hide default display of error code. 
             json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
           }
         }
+              location.reload();
+
   })
 
   editorCommunity.on('postSubmit', function ( e, json, data, action) {
     console.log('submitted post');
     if(json.error) {
       console.log('sql error noticed');
-        var codeField = this.field('communities.community_code');
+        var codeField = this.field('communities.id');
         console.log(json)
         var sqlDupKey = json.error;
         console.log("sqlerror = ", sqlDupKey)
 
         //if error is for a duplicate Community Code, display error: 
-        if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("community_code")) {
+        if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("id")) {
           codeField.error('This Code already exists in the database. Please choose a different code');
           //hide default display of error code. 
           json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
         }
       }
+
+      location.reload();
   })
 
     var communityTable = $('#communityTable').DataTable({
@@ -106,8 +117,8 @@ jQuery(document).ready(function($){
       columns: [
         { data: "id", title: "More Info", render: function(data,type,row,meta){
            return "<span class='fa fa-plus-circle commButton' id='barcodeButton_" + data + "'></span>";
-         }, "className":"trPlus"},
-        { data: "communities.community_code", title: "Code" },
+         }, "className":"trPlus",visible:false},
+        { data: "communities.id", title: "Code" },
         { data: "communities.community_label", title: "Community Representative's Name" },
         { data: "districts.district_label", title: "Network Label" },
         { data: "wp_bp_groups.name", title: "Project" }
@@ -127,8 +138,8 @@ jQuery(document).ready(function($){
       columns: [
         { data: "id", title: "More Info", render: function(data,type,row,meta){
            return "<span class='fa fa-plus-circle commButton' id='" + data + "'></span>";
-         }, "className":"trPlus"},
-        { data: "districts.district_code", title: "Network Code" },
+         }, "className":"trPlus",visible:false},
+        { data: "districts.id", title: "Network Code" },
         { data: "districts.district_label", title: "Network Name" },
         { data: "countries.country_label", title: "Country Label" },
         { data: "wp_bp_groups.name", title: "Project" },
@@ -199,6 +210,77 @@ jQuery(document).ready(function($){
             }
         } );
 
+//setup editor code generation:
+//
+//// district code:
+
+  editorDistrict.on('open displayOrder', function(e,mode,action){
+    $("#DTE_Field_districts-project").change(function(){
+      console.log('district project updated');
+      console.log('project id = ',$(this).val());
+      id = $(this).val();
+      temp = [
+        "NA","RMS","SOILS","FP"
+      ]
+      console.log('project code', temp[id]);
+      $('#district_code_prefix').html(temp[id]);
+    });
+  });
+
+editorDistrict.on('initSubmit',function(e,action){
+  if(editorDistrict.field('districts.project').val() == '') {
+    this.error('Please select a project');
+    return false;
+  }
+  district_code = jQuery('#district_code_prefix').html()
+  district_code += jQuery('#district_code_entered').val();
+  editorDistrict.field('districts.id').val(district_code);
+  console.log('district_code calc',district_code);
+  return true;
+});
+
+  editorCommunity.on('open displayOrder', function(e,mode,action){
+    $("#DTE_Field_communities-district_id").change(function(){
+      console.log('district updated');
+      console.log('district id = ',$(this).val());
+      id = $(this).val();
+      $('#community_code_prefix').html(id);
+    });
+    $("#DTE_Field_communities-project").change(function(){
+      var pro = $(this).val();
+      temp = [
+        "NA","RMS","SOILS","FP"
+      ]
+
+      pro = temp[pro]
+      console.log(pro)
+      $("#DTE_Field_communities-district_id option").each(function() {
+        $(this).show();
+        val = $(this).val();
+        console.log(pro)
+        console.log("val = ",val);
+        console.log(val.search(pro))
+        if(val.search(pro)!=0) {
+          if(val!="") {
+            $(this).hide();
+
+          }
+        }
+      }); //end each
+    });
+  });
+
+editorCommunity.on('initSubmit',function(e,action){
+  if(editorCommunity.field('communities.project').val() == '') {
+    this.error('Please select a project');
+    return false;
+  }
+  community_code = jQuery('#community_code_prefix').html();
+  community_code += jQuery('#community_code_entered').val();
+  editorCommunity.field('communities.id').val(community_code);
+  console.log('community_code calc',community_code);
+  return true;
+});
 
   }); //end document ready
 

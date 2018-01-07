@@ -53,3 +53,7 @@
     display: none;
   }
 }
+
+header#masthead {
+  background-color:#a82323!important;
+}

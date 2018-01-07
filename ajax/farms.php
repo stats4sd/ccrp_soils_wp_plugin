@@ -22,7 +22,7 @@ Editor::inst( $db, 'farmers' )
   ->fields(
     // Farm-level data
     Field::inst( 'farmers.id' )->validator( 'Validate::notEmpty' ),
-    Field::inst( 'farmers.farmer_code' )->validator( 'Validate::notEmpty' ),
+    // Field::inst( 'farmers.farmer_code' )->validator( 'Validate::notEmpty' ),
     Field::inst( 'farmers.farmer_name' ),
     Field::inst( 'farmers.community_id' )
       ->options( Options::inst()
@@ -31,7 +31,6 @@ Editor::inst( $db, 'farmers' )
         ->label('community_label')
       ),
     //Community-level data:
-    Field::inst('communities.community_code'),
     Field::inst('communities.community_label'),
     // Field::inst('communities.country_id')
     //   ->options( Options::inst()
@@ -45,11 +44,13 @@ Editor::inst( $db, 'farmers' )
               ->table('wp_bp_groups')
               ->value('id')
               ->label('name')),
-    Field::inst('wp_bp_groups.name')
+    Field::inst('wp_bp_groups.name'),
+    Field::inst('projects.code')
 
    
   )
   ->leftJoin('communities','communities.id', '=','farmers.community_id')
   ->leftJoin('wp_bp_groups','wp_bp_groups.id', '=','farmers.project')
+  ->leftJoin('projects','projects.id','=','farmers.project')
   ->process( $_POST )
   ->json();

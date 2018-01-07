@@ -199,7 +199,7 @@ function get_single_barcode() {
 add_action('wp_ajax_create_barcode','create_barcode');
 add_action('wp_ajax_nopriv_create_barcode','create_barcode');
 function create_barcode() {
-  GLOBAL $wpdb
+  GLOBAL $wpdb;
 
   $farm = $_POST['value'];
   $number = $_POST['number'];

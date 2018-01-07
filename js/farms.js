@@ -1,4 +1,4 @@
-var farmEditor;
+var editorFarm;
 jQuery(document).ready(function(){
   console.log("stats4sd-js Starting with farms");
 
@@ -16,10 +16,7 @@ jQuery('#community-tabs a').on('click', function (e) {
 });
 
   //setup editor for DataTables
-  farmEditor = new jQuery.fn.dataTable.Editor( {
-        ajax: vars.editorurl + "/farms.php",
-        table: "#farmTable",
-        fields: [
+  editorFarmFields = [
             {
               label: "Project",
               name: "farmers.project",
@@ -28,9 +25,10 @@ jQuery('#community-tabs a').on('click', function (e) {
               placeholder: "Select a project"
             },
             {
-                label: "Farmer Code:",
-                name: "farmers.farmer_code"
-            }, {
+                label: "",
+                name: "farmers.id",
+                type: "hidden"
+            },{
                 label: "Farmer Name:",
                 name: "farmers.farmer_name"
             },
@@ -40,12 +38,18 @@ jQuery('#community-tabs a').on('click', function (e) {
                 type: "select",
                 placeholder: "Select a Community"
             }
-        ]
-    } );
+        ];
+
+  editorFarm = new jQuery.fn.dataTable.Editor({
+    ajax: vars.editorurl + "/farms.php",
+    table: "#farmTable",
+    template: "#farm-edit-template",
+    fields: editorFarmFields
+  });
 
 // Setup dependancy for countries and communities
 // This is to set the communities field to automatically update when you select a country in the editor form.
- // farmEditor.dependent('communities.country_id',vars.editorurl + "/country_community.php");
+ // editorFarm.dependent('communities.country_id',vars.editorurl + "/country_community.php");
 
     var farmTable = jQuery('#farmTable').DataTable({
       autowidth: true,
@@ -59,10 +63,10 @@ jQuery('#community-tabs a').on('click', function (e) {
         //    return "<span class='fa fa-plus-circle commButton' id='barcodeButton_" + data + "'></span>";
         //  }, "className":"trPlus"},
         //  
-        { data: "communities.community_code", title: "Community", visible: false },
+        { data: "communities.community_label", title: "VBA (community rep)", visible: false },
         // { data: "communities.country_id", title: "Country", visible: false },
 
-        { data: "farmers.farmer_code", title: "Farmer Code" },
+        { data: "farmers.id", title: "Farmer Code" },
         { data: "farmers.farmer_name", title: "Farmer Name" },
         // { data: "countries.country_label", title: "Country", visible: false},
         { data: "communities.community_label", title: "VBA" },
@@ -72,9 +76,9 @@ jQuery('#community-tabs a').on('click', function (e) {
       ],
       select: true,
       buttons: [
-       { extend: "create", editor: farmEditor },
-       { extend: "edit",   editor: farmEditor },
-       { extend: "remove", editor: farmEditor }
+       { extend: "create", editor: editorFarm },
+       { extend: "edit",   editor: editorFarm },
+       { extend: "remove", editor: editorFarm }
       ],
 
     });
@@ -129,9 +133,7 @@ jQuery('#community-tabs a').on('click', function (e) {
 
                     //calculate the farmer code
                     rdata = row.data();
-                    code = rdata.communities.community_code
-                      .concat("-")
-                      .concat(rdata.farmers.farmer_code);
+                    code = rdata.farmers.id;
                     name = rdata.farmers.farmer_name;
                     console.log('rdata',rdata);
 
@@ -224,6 +226,52 @@ jQuery('#community-tabs a').on('click', function (e) {
                 tr.addClass('shown');
             }
         } );
+
+editorFarm.on('initSubmit',function(e,action){
+  if(editorFarm.field('farmers.project').val() == '') {
+    this.error('Please select a project');
+    return false;
+  }
+  farmer_code = jQuery('#farmer_code_prefix').html()
+  farmer_code += jQuery('#farmer_code_entered').val();
+  editorFarm.field('farmers.id').val(farmer_code);
+  console.log('farmer_code calc',farmer_code);
+  return true;
+});
+
+  editorFarm.on('open displayOrder', function(e,mode,action){
+
+
+    jQuery("#DTE_Field_farmers-community_id").change(function(){
+      console.log('community updated');
+      console.log('community id = ',jQuery(this).val());
+      id = jQuery(this).val();
+      jQuery('#farmer_code_prefix').html(id);
+    });
+
+    jQuery("#DTE_Field_farmers-project").change(function(){
+      var pro = jQuery(this).val();
+      temp = [
+        "NA","RMS","SOILS","FP"
+      ]
+
+      pro = temp[pro]
+      console.log(pro)
+      jQuery("#DTE_Field_farmers-community_id option").each(function() {
+        jQuery(this).show();
+        val = jQuery(this).val();
+        console.log(pro)
+        console.log("val = ",val);
+        console.log(val.search(pro))
+        if(val.search(pro)!=0) {
+          if(val!="") {
+            jQuery(this).hide();
+
+          }
+        }
+      }); //end each
+    });
+  });
 
 }); // end document ready
 function initialChildRow(data){

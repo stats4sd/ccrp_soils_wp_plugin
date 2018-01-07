@@ -26,7 +26,7 @@ use
 Editor::inst( $db, 'communities' )
   ->fields(
     Field::inst( 'communities.id' )->validator( 'Validate::notEmpty' ),
-    Field::inst( 'communities.community_code' )->validator( 'Validate::notEmpty' ),
+    // Field::inst( 'communities.community_code' )->validator( 'Validate::notEmpty' ),
     Field::inst( 'communities.community_label' )->validator( 'Validate::notEmpty'),
     
     Field::inst( 'communities.district_id' )->validator('Validate::notEmpty')
