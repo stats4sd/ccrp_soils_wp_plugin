@@ -69,11 +69,6 @@ function soils_scripts() {
     wp_enqueue_script( 'communities-script', plugin_dir_url( __FILE__ ) . 'js/communities.js', array( 'jquery' ), time(), true );
     wp_enqueue_script( 'farms-script', plugin_dir_url( __FILE__ ) . 'js/farms.js', array( 'jquery' ), time(), true );
 
-    // wp_enqueue_style( 'print-js-style', 'https://printjs-4de6.kxcdn.com/print.min.css',array(),"4.7" );
-
-    //also enqueue the print-js scripts:
-    // <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
-
     //Setup the parameters for "localising" the javascript. (i.e. passing values into the javascript)
     $params = array(
       'editorurl' => plugin_dir_url(__FILE__) . 'ajax',
@@ -83,6 +78,12 @@ function soils_scripts() {
 
     //localise!
     wp_localize_script('communities-script','vars',$params);
+    wp_localize_script('farms-script','vars',$params);
+
+    //Mustache and QR code dependancies
+    wp_enqueue_script( 'mustache-script', plugin_dir_url( __FILE__ ) . 'js/mustache.js/mustache.min.js', array( 'jquery' ), time(), true );
+    wp_enqueue_script( 'qr-script', plugin_dir_url( __FILE__ ) . 'js/qrcodejs/qrcode.min.js', array( 'jquery' ), time(), true );
+    wp_enqueue_script( 'jqueryprint-script', plugin_dir_url( __FILE__ ) . 'js/jquery-print.js', array( 'jquery' ), time(), true );
 
   }
 

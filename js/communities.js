@@ -82,22 +82,22 @@ jQuery(document).ready(function($){
         }
   })
 
-    editorCommunity.on('postSubmit', function ( e, json, data, action) {
+  editorCommunity.on('postSubmit', function ( e, json, data, action) {
     console.log('submitted post');
     if(json.error) {
-        console.log('sql error noticed');
-          var codeField = this.field('communities.community_code');
-          console.log(json)
-          var sqlDupKey = json.error;
-          console.log("sqlerror = ", sqlDupKey)
+      console.log('sql error noticed');
+        var codeField = this.field('communities.community_code');
+        console.log(json)
+        var sqlDupKey = json.error;
+        console.log("sqlerror = ", sqlDupKey)
 
-          //if error is for a duplicate Community Code, display error: 
-          if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("community_code")) {
-            codeField.error('This Code already exists in the database. Please choose a different code');
-            //hide default display of error code. 
-            json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
-          }
+        //if error is for a duplicate Community Code, display error: 
+        if(sqlDupKey.includes("SQLSTATE[23000]") && sqlDupKey.includes("community_code")) {
+          codeField.error('This Code already exists in the database. Please choose a different code');
+          //hide default display of error code. 
+          json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
         }
+      }
   })
 
     var communityTable = $('#communityTable').DataTable({
@@ -160,7 +160,7 @@ jQuery(document).ready(function($){
             filter_reset_button_text:"Reset"
           }
 
-          ]);
+    ]);
 
     yadcf.init(districtTable, [
                     {

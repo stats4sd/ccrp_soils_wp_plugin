@@ -1,0 +1,9 @@
+[submodule "js/mustache.js"]
+	path = js/mustache.js
+	url = git@github.com:janl/mustache.js.git
+[submodule "js/qrcodejs"]
+	path = js/qrcodejs
+	url = git@github.com:davidshimjs/qrcodejs.git
+[submodule "js/jquery-qrcode"]
+	path = js/jquery-qrcode
+	url = git@github.com:jeromeetienne/jquery-qrcode.git

@@ -1,0 +1,11 @@
+<div class='row'>
+  <div class='col'>
+    <h5 style='text-align:center'>Farmer Unique Barcode</h5>
+    <div class='farmer_qrcode_holder' id='farmer_qr_code_{{code}}'></div>
+    <p style='text-align:center;'>{{code}}</p>
+  </div>
+  <div class='col'>
+    <button class='btn btn-default' id='gen_{{code}}'>Generate sample barcodes sheet</button>
+  </div>
+</div>
+

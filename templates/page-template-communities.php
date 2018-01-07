@@ -82,14 +82,14 @@ if(count($groupid[groups]) > 1) {
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
 
-    <li role="presentation" class="">
-      <a href="#districts" aria-controls="districts" role="tab" data-toggle="tab"><?php echo $district;?></a>
+    <li class='nav-item' class="">
+      <a href="#districts" class='nav-link ' id='districts-tab' data-toggle="tab" role="tab" aria-controls="districts" aria-selected="false"><?php echo $district;?></a>
     </li>
-    <li role="presentation" class="active">
-      <a href="#communities" aria-controls="communities" role="tab" data-toggle="tab"><?php echo $community;?></a>
+    <li class='nav-item'>
+      <a href="#communities"  class='nav-link active' id='communities-tab' data-toggle="tab" role="tab" aria-controls="communities" aria-selected="true" ><?php echo $community;?></a>
     </li>
-    <li role="presentation">
-      <a href="#farms" aria-controls="farms" role="tab" data-toggle="tab"><?php echo $farm;?></a>
+    <li class='nav-item'>
+      <a href="#farms" class='nav-link ' id='farms-tab' data-toggle="tab" role="tab" aria-controls="farms" aria-selected="false" ><?php echo $farm;?></a>
     </li>
   </ul>
 
@@ -97,7 +97,7 @@ if(count($groupid[groups]) > 1) {
   <div class="tab-content">
 
     <!-- ########### Districts ########### -->
-    <div role="tabpanel" class="tab-pane" id="districts">
+    <div role="tabpanel" class="tab-pane" id="districts" aria-labelledby="districts-tab">
 
       <!-- #### TAB CONTENT ### -->
       <div id='filters' class='well well-sm' style='margin-top: 15px;'>
@@ -118,7 +118,7 @@ if(count($groupid[groups]) > 1) {
     </div>
 
     <!-- ########### Communities ########### -->
-    <div role="tabpanel" class="tab-pane active" id="communities">
+    <div role="tabpanel" class="tab-pane fade show active" id="communities" aria-labelledby="communities-tab">
 
       <!-- #### TAB CONTENT ### -->
       <div class='alert alert-info'>
@@ -154,7 +154,7 @@ if(count($groupid[groups]) > 1) {
     </div>
 
     <!-- ########### FARMS ########### -->
-    <div role="tabpanel" class="tab-pane" id="farms">
+    <div role="tabpanel" class="tab-pane" id="farms" aria-labelledby="farms-tab">
       <div id='filters' class='well well-sm' style='margin-top: 15px;'>
         <h4>Table Filters</h4>
         <form id='filterDiv' class='form form-horizontal'>
@@ -189,6 +189,8 @@ if(count($groupid[groups]) > 1) {
 <!-- ########################## -->
 <!-- ########################## -->
 <!-- ########################## -->
+
+<div id='sample_sheet'></div>
 
       <?php endwhile; // end of the loop. ?>
 
