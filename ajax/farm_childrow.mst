@@ -5,7 +5,7 @@
     <p style='text-align:center;'>{{code}}</p>
   </div>
   <div class='col'>
-    <button class='btn btn-default' id='gen_{{code}}'>Generate sample barcodes sheet</button>
+    <button class='btn btn-primary' id='gen_{{code}}'>Generate sample barcodes sheet</button>
   </div>
 </div>
 

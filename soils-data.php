@@ -220,7 +220,7 @@ function create_barcode() {
 
   $updateQuery = $wpdb->get_results("
                                        UPDATE `barcodes` 
-                                       SET `barcodes`.`code` = CONCAT(`farm_id`,'-',`barcodes`.`id`), `barcodes`.`status`='coded' 
+                                       SET `barcodes`.`code` = CONCAT(`farm_id`,`barcodes`.`id`), `barcodes`.`status`='coded' 
                                        WHERE `barcodes`.`status`='gen'");
   for($j=0;$j<$number;$j++){
     $id[$j] = $farm . $id[$j];

@@ -203,6 +203,7 @@ editorFarm.on('initSubmit',function(e,action){
 
   editorFarm.on('open displayOrder', function(e,mode,action){
 
+    //need to set the farm_id entry value if editing
 
     jQuery("#DTE_Field_farmers-community_id").change(function(){
       console.log('community updated');
