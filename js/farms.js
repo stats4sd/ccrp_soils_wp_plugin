@@ -158,66 +158,28 @@ jQuery('#community-tabs a').on('click', function (e) {
                       jQuery('#gen_'+code).click(function(e){
 
                         //generate codes
-                        codes = [
-                        code+"00"+1,
-                        code+"00"+2,
-                        code+"00"+3,
-                        code+"00"+4,
-                        code+"00"+5,
-                        code+"00"+6,
-                        code+"00"+7,
-                        code+"00"+8,
-                        ]
+                        jQuery.ajax({
+                          url: vars.ajaxurl,
+                          "type":"POST",
+                          "dataType":"json",
+                          "data":{
+                            "action":"create_barcode",
+                            "nonce":vars.pa_nonce,
+                            "farm":code,
+                            "number":6
+                          },
+                          success: function(response){
+                            console.log("create_barcode response", response);
+                            codes = response.data;
 
-                        jQuery.get(vars.editorurl + '/farm_samplecodes.mst',function(template){
-                          var rendered = Mustache.render(template,{
-                            farmer_code:code,
-                            farmer_name:name,
-                            code0:codes[0],
-                            code1:codes[1],
-                            code2:codes[2],
-                            code3:codes[3],
-                            code4:codes[4],
-                            code5:codes[5],
-                            // code6:codes[6],
-                            // code7:codes[7]
-                          });
-                          jQuery('#sample_sheet').html(rendered);
-                          jQuery('#samplesheetmodal').modal('toggle');
-                          //qr codes!
-                          console.log("got mst");
-                          
-                          new QRCode(document.getElementById('farmer_qrcode'),{
-                            text: code,
-                            width: 80,
-                            height: 80,
-                            colorDark : "#000000",
-                            colorLight : "#ffffff",
-                            correctLevel : QRCode.CorrectLevel.H
-                          });
-
-                          for (i=0;i<6;i++) {
-                            console.log('code ' + i,code+"00"+i);
-                            new QRCode(document.getElementById('code'+i),{
-                              text: codes[i],
-                              width: 100,
-                              height: 100,
-                              colorDark : "#000000",
-                              colorLight : "#ffffff",
-                              correctLevel : QRCode.CorrectLevel.H
-                            });
+                            setup_codeSheet(codes);
+                          },
+                          error: function(jqXHR,textStatus,errorThrown){
+                            console.log("ajax error create barcodes",textStatus);
+                            console.log(errorThrown);
                           }
-
-                          //setup print button;
-                          jQuery('#printbutton_'+code).click(function(){
-                            console.log('print button clicked');
-                            jQuery('#print_modal_'+code).printElement({
-                              pageTitle:"SampleSheet_"+name+" - "+code,
-                            });
-                            
-  
-                            })
-                        });
+                        }
+                      );
                       });
 
                     });
@@ -276,4 +238,56 @@ editorFarm.on('initSubmit',function(e,action){
 }); // end document ready
 function initialChildRow(data){
   return "<div id='child-row-" + data.farmers.id + "'><span class='fa fa-spinner-circle'></span>Loading</div>";
+}
+
+function setup_codeSheet(codes){
+  jQuery.get(vars.editorurl + '/farm_samplecodes.mst',function(template){
+    var rendered = Mustache.render(template,{
+      farmer_code:code,
+      farmer_name:name,
+      code0:codes[0],
+      code1:codes[1],
+      code2:codes[2],
+      code3:codes[3],
+      code4:codes[4],
+      code5:codes[5],
+      // code6:codes[6],
+      // code7:codes[7]
+    });
+    jQuery('#sample_sheet').html(rendered);
+    jQuery('#samplesheetmodal').modal('toggle');
+    //qr codes!
+    console.log("got mst");
+    
+    new QRCode(document.getElementById('farmer_qrcode'),{
+      text: code,
+      width: 80,
+      height: 80,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+
+    for (i=0;i<6;i++) {
+      console.log('code ' + i,code+"00"+i);
+      new QRCode(document.getElementById('code'+i),{
+        text: codes[i],
+        width: 100,
+        height: 100,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+    }
+
+    //setup print button;
+    jQuery('#printbutton_'+code).click(function(){
+      console.log('print button clicked');
+      jQuery('#print_modal_'+code).printElement({
+        pageTitle:"SampleSheet_"+name+" - "+code,
+      });
+      
+
+    });
+  });
 }

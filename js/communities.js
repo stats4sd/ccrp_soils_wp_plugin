@@ -3,9 +3,7 @@ var editorCommunity;
 jQuery(document).ready(function($){
 	console.log("stats4sd-js Starting again");
 
-  $("#farms-tab").on("click",function(){
-    prepFarmTab()
-  });
+  
 
   //setup editor for Districts
   editorDistrict = new $.fn.dataTable.Editor( {
@@ -87,8 +85,6 @@ jQuery(document).ready(function($){
             json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
           }
         }
-              location.reload();
-
   })
 
   editorCommunity.on('postSubmit', function ( e, json, data, action) {
@@ -106,7 +102,7 @@ jQuery(document).ready(function($){
           //hide default display of error code. 
           json.error = 'Errors have been spotted in the data. Please see the highlighted fields above';
         }
-      }
+      };
 
       location.reload();
   })

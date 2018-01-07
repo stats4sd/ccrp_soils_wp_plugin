@@ -106,6 +106,8 @@ function soils_scripts() {
 
     //localise!
     wp_localize_script('soils-script','vars',$params);
+    wp_localize_script('communities-script','vars',$params);
+    wp_localize_script('farms-script','vars',$params);
 
   }
 }
@@ -201,28 +203,29 @@ add_action('wp_ajax_nopriv_create_barcode','create_barcode');
 function create_barcode() {
   GLOBAL $wpdb;
 
-  $farm = $_POST['value'];
+  $farm = $_POST['farm'];
   $number = $_POST['number'];
 
   $query = [];
   $ids = [];
   //generate the number of barcodes asked for:
-  for($i = 0; $x<$number; $i++){
+  for($i = 0; $i<$number; $i++){
   // //create entry in barcodes table (to generate an auto-increment value);
-  $query[$i] = $wpdb->insert('barcodes',array('farm_id' => $farm, 'status'=>"gen"));
+  $query[] = $wpdb->insert('barcodes',array('farm_id' => $farm, 'status'=>"gen"));
     //get the ID of the inserted row:
-    $id[$i] = $wpdb->insert_id;
+    $id[] = $wpdb->insert_id;
   }
 
   //then, run update command to turn the newly 'gen'-ed AI into a code that can be barcoded. This code will include the country and community IDs
 
   $updateQuery = $wpdb->get_results("
                                        UPDATE `barcodes` 
-                                       INNER JOIN `farms` on `barcodes`.`farmer_code` = `farms`.`id` 
-                                       SET `barcodes`.`code` = CONCAT(`communities`.`country_id`,'_',`barcodes`.`community_id`,'_',`barcodes`.`id`), `barcodes`.`status`='coded' 
+                                       SET `barcodes`.`code` = CONCAT(`farm_id`,'-',`barcodes`.`id`), `barcodes`.`status`='coded' 
                                        WHERE `barcodes`.`status`='gen'");
-  
-  wp_send_json_success($qr);
+  for($j=0;$j<$number;$j++){
+    $id[$j] = $farm . $id[$j];
+  }
+  wp_send_json_success($id);
 } //end create barcode()
 
 add_action('wp_ajax_update_barcodes','update_barcodes');
