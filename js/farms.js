@@ -62,10 +62,10 @@ jQuery('#community-tabs a').on('click', function (e) {
         { data: "communities.community_code", title: "Community", visible: false },
         // { data: "communities.country_id", title: "Country", visible: false },
 
-        { data: "farmers.farmer_code", title: "Farm / Farmer Code" },
-        { data: "farmers.farmer_name", title: "Farm / Farmer Name" },
+        { data: "farmers.farmer_code", title: "Farmer Code" },
+        { data: "farmers.farmer_name", title: "Farmer Name" },
         // { data: "countries.country_label", title: "Country", visible: false},
-        { data: "communities.community_label", title: "Community" },
+        { data: "communities.community_label", title: "VBA" },
                 { data: "wp_bp_groups.name", title: "Project" }
 
 
@@ -93,7 +93,7 @@ jQuery('#community-tabs a').on('click', function (e) {
             column_number: 1,
             filter_container_id: "farm_communityFilter",
             filter_type:"select",
-            filter_default_label:"Select Community",
+            filter_default_label:"Select VBA",
             style_class:"form-control filter-control",
             filter_reset_button_text:"Reset"
           }

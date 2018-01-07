@@ -47,17 +47,17 @@ jQuery(document).ready(function($){
 
 
             {
-                label: "Community_code:",
+                label: "VBA Code:",
                 name: "communities.community_code"
             }, {
-                label: "Community Label:",
+                label: "Community Representative's Name:",
                 name: "communities.community_label"
             }, 
             {
-                label: "District:",
+                label: "Network:",
                 name: "communities.district_id",
                 type: "select",
-                placeholder: "Select a District"
+                placeholder: "Select a Network"
             }
         ]
     } );
@@ -108,8 +108,8 @@ jQuery(document).ready(function($){
            return "<span class='fa fa-plus-circle commButton' id='barcodeButton_" + data + "'></span>";
          }, "className":"trPlus"},
         { data: "communities.community_code", title: "Code" },
-        { data: "communities.community_label", title: "Community Name" },
-        { data: "districts.district_label", title: "District Label" },
+        { data: "communities.community_label", title: "Community Representative's Name" },
+        { data: "districts.district_label", title: "Network Label" },
         { data: "wp_bp_groups.name", title: "Project" }
 
       ],
@@ -128,8 +128,8 @@ jQuery(document).ready(function($){
         { data: "id", title: "More Info", render: function(data,type,row,meta){
            return "<span class='fa fa-plus-circle commButton' id='" + data + "'></span>";
          }, "className":"trPlus"},
-        { data: "districts.district_code", title: "District Code" },
-        { data: "districts.district_label", title: "District Name" },
+        { data: "districts.district_code", title: "Network Code" },
+        { data: "districts.district_label", title: "Network Name" },
         { data: "countries.country_label", title: "Country Label" },
         { data: "wp_bp_groups.name", title: "Project" },
 

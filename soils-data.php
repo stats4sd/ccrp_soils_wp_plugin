@@ -199,30 +199,29 @@ function get_single_barcode() {
 add_action('wp_ajax_create_barcode','create_barcode');
 add_action('wp_ajax_nopriv_create_barcode','create_barcode');
 function create_barcode() {
-  GLOBAL $wpdb, $qrcodetag;
-  $soilsdb = new wpdb('root','ssd@soils-dev','soils','localhost');
+  GLOBAL $wpdb
 
-  $value = $_POST['value'];
+  $farm = $_POST['value'];
+  $number = $_POST['number'];
 
-
+  $query = [];
+  $ids = [];
+  //generate the number of barcodes asked for:
+  for($i = 0; $x<$number; $i++){
   // //create entry in barcodes table (to generate an auto-increment value);
-  $query = $soilsdb->insert('barcodes',array('community_id' => $value, 'status'=>"gen"));
-  //get the ID of the inserted row:
-  $id = $soilsdb->insert_id;
+  $query[$i] = $wpdb->insert('barcodes',array('farm_id' => $farm, 'status'=>"gen"));
+    //get the ID of the inserted row:
+    $id[$i] = $wpdb->insert_id;
+  }
 
-  //then, run update command to turn the newly 'gen'-ed AI into a code that can be barcoded. This code will include the country and community IDs.
+  //then, run update command to turn the newly 'gen'-ed AI into a code that can be barcoded. This code will include the country and community IDs
+
+  $updateQuery = $wpdb->get_results("
+                                       UPDATE `barcodes` 
+                                       INNER JOIN `farms` on `barcodes`.`farmer_code` = `farms`.`id` 
+                                       SET `barcodes`.`code` = CONCAT(`communities`.`country_id`,'_',`barcodes`.`community_id`,'_',`barcodes`.`id`), `barcodes`.`status`='coded' 
+                                       WHERE `barcodes`.`status`='gen'");
   
-
-  $updateQuery = $soilsdb->get_results("UPDATE `barcodes` INNER JOIN `communities` on `barcodes`.`community_id` = `communities`.`id` SET `barcodes`.`code` = CONCAT(`communities`.`country_id`,'_',`barcodes`.`community_id`,'_',`barcodes`.`id`), `barcodes`.`status`='coded' WHERE `barcodes`.`status`='gen'");
-
-
-  $sql = "SELECT `country_id` FROM `communities` WHERE `community_id`='". $value ." ';";
-  //get the country ID
-  $country_result = $soilsdb->get_results($sql);
-  $country_id = $country_result[0]->country_id;
-
-  $code = $country_id . "_" . $value . "_" . $id;
-  $qr = $qrcodetag->getQrCodeUrl($code,100,'UTF-8','L',4,0);
   wp_send_json_success($qr);
 } //end create barcode()
 

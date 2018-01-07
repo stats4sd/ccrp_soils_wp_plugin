@@ -41,7 +41,7 @@ $this_id = current($groupid[groups]);
 if($this_id == 3) {
   $district = "ward";
   $community = "VBA";
-  $farm = "farm";
+  $farm = "Farmer";
   $plot = "terrace";
 }
 
@@ -57,14 +57,14 @@ else {
 }
 
 if(count($groupid[groups]) > 1) {
-  
+  //this is just for the admin: quickly change the views here: 
   foreach($groupid[groups] as $group) {
     $this_id = $group;
     //echo "<pre>user group id = " . $this_id . "</pre>";
-  $district = "district";
-  $community = "community";
-  $farm = "farm";
-  $plot = "plot";
+  $district = "Network";
+  $community = "VBA";
+  $farm = "Farmer";
+  $plot = "terrace";
   }
 }
 
