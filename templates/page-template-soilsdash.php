@@ -20,21 +20,28 @@ get_header(); ?>
 <div class='alert alert-info'>
   <p>This page displays soil sample data for samples your project has collected. Any analysis data will also be available. If a particular analyis has not been conducted, those fields will be blank for the sample.</p>
   <p>To show or hide analysis results, use the "show/hide columns" button at the top of the table. You can download the sample data to a csv file for use in Excel or statistics package locally.</p>
-  <p>Note: This page only shows sample information for your project's samples.</p>
 </div>
 
-<?php 
-  if(get_current_user_id()!=1) {
-    ?>
-    <pre>Page coming soon</pre>
-    <?php 
-  }
+  <div id='filters' class='card'>
+    <div class="card-header">
+      <h4>Table Filters</h4>
+    </div>
+    <div class="card-body">
+      <form id='filterDiv' class='form form-horizontal'>
+        <div class='row'>
+          <div class='col-sm-3'>
+            <label class='control-label'>Select Project</label>
+          </div>
+          <div class='col-sm-8'>
+            <div id='district_projectFilter'></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 
-  else {
-    ?> 
-    <table id='DataTable' class='table table-striped'></table>
-  <?php }
-  ?>
+<table id='DataTable' class='table table-striped'></table>
+
 
         <?php get_template_part( 'content', 'page' ); ?>
 

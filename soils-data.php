@@ -101,7 +101,8 @@ function soils_scripts() {
     $params = array(
       'editorurl' => plugin_dir_url(__FILE__) . 'ajax',
       'ajaxurl' => admin_url( 'admin-ajax.php' ),
-      'pa_nonce' => wp_create_nonce('pa_nonce')
+      'pa_nonce' => wp_create_nonce('pa_nonce'),
+      'user_id' => BP_Groups_Member::get_group_ids( get_current_user_id())
     );
 
     //localise!

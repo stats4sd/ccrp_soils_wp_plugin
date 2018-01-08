@@ -7,6 +7,11 @@
 // DataTables PHP library
 include( "../../wordpress_datatables/DataTables_Editor/php/DataTables.php" );
 
+//get user group submitted: 
+//
+
+$user_group_id = $_GET['user_id'];
+
 // Alias Editor classes so they are easy to use
 use
   DataTables\Editor,
@@ -24,7 +29,9 @@ Editor::inst( $db, 'samples' )
     Field::inst( 'samples.sampling_date' ),
     Field::inst( 'samples.collector_name' ),
     Field::inst( 'samples.sampling_depth' ),
-    Field::inst( 'samples.sample_comments' )
+    Field::inst( 'samples.sample_comments' ),
+    Field::inst( 'samples.project_id' )
+
     //Field::inst( 'samples.farmer_id'),
     // Field::inst('samples.plot_name'),
     // Field::inst('samples.plot_gradient'),
@@ -89,5 +96,6 @@ Editor::inst( $db, 'samples' )
       Field::inst('volume_topup'),
       Field::inst('weight_soil')
     ))
+  ->where("samples.project_id",$user_group_id)
   ->process( $_POST )
   ->json();
