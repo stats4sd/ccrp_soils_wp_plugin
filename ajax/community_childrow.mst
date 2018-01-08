@@ -1,0 +1,9 @@
+<div class='row'>
+  <div class='col'>
+    <h4 style='text-align:center'>Number of Farmers: {{farmer_count}}</h4>
+  </div>
+  <div class='col'>
+    <button class='btn btn-primary' id='Commgen_{{community_id}}'>Generate Sample code sheet for all {{farmer_count}} farmers</button>
+  </div>
+</div>
+

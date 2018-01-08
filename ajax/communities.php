@@ -44,9 +44,18 @@ Editor::inst( $db, 'communities' )
       ),
     Field::inst('wp_bp_groups.name')
 
+
   )
   ->leftJoin('districts','districts.id', '=','communities.district_id')
   ->leftJoin('wp_bp_groups','wp_bp_groups.id', '=','communities.project')
-
+  //join into the farmers table to get farmer information into the communities tab.
+  ->join(
+          Mjoin::inst( 'farmers')
+              ->link('communities.id','farmers.community_id')
+              ->fields(
+                  Field::inst( 'id' ),
+                  Field::inst( 'farmer_name' )
+              )
+            )
   ->process( $_POST )
   ->json();

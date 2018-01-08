@@ -1,0 +1,52 @@
+<div class="modal fade" id="comm_samplesheetmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document" >
+    <div class="modal-content">
+      <div id="comm_print_modal_{{community_code}}">
+        <div class="modal-header">
+          <div class='row'>
+            <div class='col'>
+              <h4 class="modal-title" id="exampleModalLongTitle">Sample Code Sheet</h4> VBA Rep: <strong>{{community_label}}</strong><br/>
+              Code = <strong>{{community_code}}</strong>
+            </div>
+{{!             <div class="media">
+              <div class="media-body">
+                <h5 class="mx-2">Farmer QR Code</h5>
+              </div>
+              <div id="farmer_qrcode"></div>
+            </div> }}
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row py-2">
+            <div class='col'></div>
+          </div>
+          <div class='row'>
+            {{#farmers}}
+            <div class='col-sm-6 border'>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h5 class="text-center mt-0">Farmer Code</h5>
+                  <p class="small">Name: {{farmer_name}}<br/>
+                  Unique Farmer ID:</p>
+                  <div id='qr_{{farmer_id}}' class='mx-auto'></div>
+                  <p class='text-center'>{{farmer_id}}</p>
+                </div>
+                <div class="col-sm-6 ">
+                  <h5 class='text-center mt-0'>SAMPLE code</h5>
+                  <p class="small">Unique Sample ID. Cut and attach to the soil sample</p>
+                  <div id='qr_{{code}}' class='mx-auto'></div>
+                  <p class='text-center'>{{code}}</p>
+                </div>
+              </div>
+            </div>
+            {{/farmers}}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer print-hide">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="comm_printbutton_{{community_code}}">Print</button>
+      </div>
+    </div>
+  </div>
+</div>

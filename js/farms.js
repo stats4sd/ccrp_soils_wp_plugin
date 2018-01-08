@@ -129,7 +129,7 @@ jQuery('#community-tabs a').on('click', function (e) {
                     //else, format it then show it.
                     console.log('making row');
                     //show initial loading icon
-                    row.child(initialChildRow(row.data())).show();
+                    row.child(initialFarmChildRow(row.data())).show();
 
                     //calculate the farmer code
                     rdata = row.data();
@@ -178,8 +178,7 @@ jQuery('#community-tabs a').on('click', function (e) {
                             console.log("ajax error create barcodes",textStatus);
                             console.log(errorThrown);
                           }
-                        }
-                      );
+                        });
                       });
 
                     });
@@ -237,7 +236,7 @@ editorFarm.on('initSubmit',function(e,action){
   });
 
 }); // end document ready
-function initialChildRow(data){
+function initialFarmChildRow(data){
   return "<div id='child-row-" + data.farmers.id + "'><span class='fa fa-spinner-circle'></span>Loading</div>";
 }
 

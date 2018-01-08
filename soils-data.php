@@ -228,6 +228,51 @@ function create_barcode() {
   wp_send_json_success($id);
 } //end create barcode()
 
+add_action('wp_ajax_create_community_barcodes','create_community_barcodes');
+add_action('wp_ajax_nopriv_create_community_barcodes','create_community_barcodes');
+function create_community_barcodes() {
+  GLOBAL $wpdb;
+
+  $farmers = $_POST['farmers'];
+  $farmer_count = count($farmers);
+
+  $query = [];
+  $ids = [];
+  $codes = [];
+  $results = [];
+
+  //for each farmer, generate a code and put it into array;
+  for($x = 0; $x < $farmer_count; $x++) {
+    // $farmer_id = $farmers[$x]['id'];
+    // $farmer_name = $farmers[$x]['farmer_name'];
+
+    //create entry in barcodes table (to generate an auto-increment value);
+    $query[$x] =  $wpdb->insert('barcodes',array('farm_id' => $farmers[$x]['id'], 'status'=>"gen"));
+
+    //get the ID of the inserted row:
+    $id[$x] = $wpdb->insert_id;
+
+    //concatenate to make the code
+    $codes[$x] = $farmers[$x]['id'] . $id[$x];
+
+    $results[$x] = array(
+      "code" => $codes[$x],
+      "farmer_id" => $farmers[$x]['id'],
+      "farmer_name" => $farmers[$x]['farmer_name']
+    );
+
+  }
+  //then, run update command to turn the newly 'gen'-ed AI into a code that can be barcoded. This code will include the country and community IDs
+
+  $updateQuery = $wpdb->get_results("
+                                       UPDATE `barcodes` 
+                                       SET `barcodes`.`code` = CONCAT(`farm_id`,`barcodes`.`id`), `barcodes`.`status`='coded' 
+                                       WHERE `barcodes`.`status`='gen'");
+
+  wp_send_json_success($results);
+
+} //end create barcode()
+
 add_action('wp_ajax_update_barcodes','update_barcodes');
 add_action('wp_ajax_nopriv_update_barcodes','update_barcodes');
 function update_barcodes(){

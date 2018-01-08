@@ -203,6 +203,7 @@ if(count($groupid[groups]) > 1) {
 <!-- ########################## -->
 
 <div id='sample_sheet'></div>
+<div id="comm_sample_sheet"></div>
 
 <div id="farm-edit-template">
   <h4>Add / Edit <?php echo $farm; ?> details</h4>
