@@ -52,8 +52,21 @@
   .print-hide {
     display: none;
   }
+  
+.break-after {
+    display: block;
+    page-break-after: always;
+    position: relative;
+}
+
+.break-before {
+    display: block;
+    page-break-before: always;
+    position: relative;
+}
 }
 
 header#masthead {
   /*background-color:#d94553!important;*/
 }
+

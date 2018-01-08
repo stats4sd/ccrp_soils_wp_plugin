@@ -258,8 +258,19 @@ function create_community_barcodes() {
     $results[$x] = array(
       "code" => $codes[$x],
       "farmer_id" => $farmers[$x]['id'],
-      "farmer_name" => $farmers[$x]['farmer_name']
+      "farmer_name" => $farmers[$x]['farmer_name'],
     );
+
+    //add start or end of row for printing: 
+    //
+    if(($x+1) % 2 == 0 ) {
+      $results[$x]["start_div"] = "";
+      $results[$x]["end_div"] = "</div>";
+    }
+    else {
+            $results[$x]["start_div"] = "<div class='row'>";
+      $results[$x]["end_div"] = "";
+    }
 
   }
   //then, run update command to turn the newly 'gen'-ed AI into a code that can be barcoded. This code will include the country and community IDs

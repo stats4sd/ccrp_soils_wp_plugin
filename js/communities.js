@@ -332,17 +332,40 @@ function initialCommChildRow(data){
 function setupCommCodeSheet(data,rdata){
   //setup sheet for all farms in a community: 
   
+  //calculate page break points: 
   
+ 
   jQuery.get(vars.editorurl + "/multi-farm_samplecodes.mst", function(template){
     var rendered = Mustache.render(template,{
       community_code: rdata.communities.id,
       community_label: rdata.communities.community_label,
       farmers: data
+      
+
     });
     console.log(rendered);
 
     jQuery('#comm_sample_sheet').html(rendered);
     jQuery('#comm_samplesheetmodal').modal('toggle');
+
+    //page break points:
+      
+    jQuery(".farmer-block").each(function(index){
+      if((index+1) % 2 == 0){
+        jQuery(this).addClass('row')
+      }
+    })
+    jQuery('.after-print').each(function(index){
+      if((index+1) % 6 == 0) {
+        jQuery(this).addClass('break-after');
+        console.log('added pageBreak after index',index);
+      }
+      if((index+2) % 6 == 0) {
+        jQuery(this).addClass('break-before');
+        console.log("added break-before to index",index);
+      }
+      console.log('no pagebreak added to index',index);
+    });
 
     //add qr codes: 
     //
@@ -376,6 +399,7 @@ function setupCommCodeSheet(data,rdata){
     //setup print button;
     jQuery('#comm_printbutton_'+rdata.communities.id).click(function(){
       console.log('print button clicked');
+
       jQuery('#comm_print_modal_'+rdata.communities.id).printElement({
         pageTitle:"SampleSheet_"+rdata.communities.community_label+" - "+rdata.communities.id,
       });
@@ -383,5 +407,9 @@ function setupCommCodeSheet(data,rdata){
 
     });
 
+    // jQuery('#comm_printbutton_'+rdata.communities.id).printPreview({
+    //   obj2print:'#comm_print_modal_'+rdata.communities.id,
+    //   width: 810
+    // });
   });
 }
