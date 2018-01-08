@@ -377,7 +377,7 @@ function setupCommCodeSheet(data,rdata){
     jQuery('#comm_printbutton_'+rdata.communities.id).click(function(){
       console.log('print button clicked');
       jQuery('#comm_print_modal_'+rdata.communities.id).printElement({
-        pageTitle:"SampleSheet_"+rdata.communities.community_label+" - "+data.communities.id,
+        pageTitle:"SampleSheet_"+rdata.communities.community_label+" - "+rdata.communities.id,
       });
       
 
