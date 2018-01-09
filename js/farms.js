@@ -63,7 +63,7 @@ jQuery('#community-tabs a').on('click', function (e) {
         //    return "<span class='fa fa-plus-circle commButton' id='barcodeButton_" + data + "'></span>";
         //  }, "className":"trPlus"},
         //  
-        { data: "communities.community_label", title: "VBA (community rep)", visible: false },
+        { data: "communities.community_label", title: "VBA (community rep)"},
         // { data: "communities.country_id", title: "Country", visible: false },
 
         { data: "farmers.id", title: "Farmer Code" },
