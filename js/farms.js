@@ -69,8 +69,7 @@ jQuery('#community-tabs a').on('click', function (e) {
         { data: "farmers.id", title: "Farmer Code" },
         { data: "farmers.farmer_name", title: "Farmer Name" },
         // { data: "countries.country_label", title: "Country", visible: false},
-        { data: "communities.community_label", title: "VBA" },
-                { data: "wp_bp_groups.name", title: "Project" }
+        { data: "wp_bp_groups.name", title: "Project" }
 
 
       ],

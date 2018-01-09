@@ -12,6 +12,8 @@ include( "../../wordpress_datatables/DataTables_Editor/php/DataTables.php" );
 
 $user_group_id = $_GET['user_id'];
 
+
+
 // Alias Editor classes so they are easy to use
 use
   DataTables\Editor,
