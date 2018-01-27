@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
     {data: "samples.sampling_date", title: "samples.sampling_date" },
     {data: "samples.collector_name", title: "samples.collector_name" },
     {data: "samples.sampling_depth", title: "samples.sampling_depth" },
-    {data: "samples.sample_comments", title: "samples.sample_comments" }
+    {data: "samples.sample_comments", title: "samples.sample_comments" },
     {data: "samples.plot_id", title: "samples.plot_id", className:"plot", visible:false },
     {data: "plots.plot_name", title: "plots.plot_name", className:"plot", visible:false },
     {data: "plots.plot_gradient", title: "plots.plot_gradient", className:"plot", visible:false },
