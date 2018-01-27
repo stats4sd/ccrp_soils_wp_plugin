@@ -97,7 +97,18 @@ Editor::inst( $db, 'samples' )
       Field::inst('volume_filtered_extract'),
       Field::inst('volume_topup'),
       Field::inst('weight_soil')
-    ))
-  ->where("samples.project_id",$user_group_id)
+   ))
+  ->where( function($q) use ($user_group_id) {
+    
+        $q->where(
+         "samples.project_id",'0',"="
+          );
+        foreach($user_group_id as $group){
+          $q->or_where("samples.project_id",$group);
+        }
+   }
+)
+
+    
   ->process( $_POST )
   ->json();
