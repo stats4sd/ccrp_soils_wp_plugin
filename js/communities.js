@@ -56,7 +56,13 @@ jQuery(document).ready(function($){
                 label: "VBA Code:",
                 name: "communities.id",
                 type: "hidden"
-            }, {
+            }, 
+            {
+              label: "Code",
+              name: "communities.code",
+              type: "hidden"
+            },
+            {
                 label: "Community Representative's Name:",
                 name: "communities.community_label"
             }, 
