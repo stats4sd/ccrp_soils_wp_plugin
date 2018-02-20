@@ -26,6 +26,7 @@ use
 Editor::inst( $db, 'districts' )
   ->fields(
     Field::inst( 'districts.id' )->validator( 'Validate::notEmpty' ),
+
     // Field::inst( 'districts.district_code' )->validator( 'Validate::notEmpty' ),
     Field::inst( 'districts.district_label' )->validator( 'Validate::notEmpty'),
     Field::inst( 'districts.country_id' )->validator('Validate::notEmpty')

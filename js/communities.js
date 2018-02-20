@@ -20,10 +20,12 @@ jQuery(document).ready(function($){
                 placeholder: "select project",
             },
             {
-                label: "District_Code:",
+                label: "District_ID:",
                 name: "districts.id",
                 type: "hidden" //this value is generated from concatenating the project-code and the entered string.
-            }, {
+            }, 
+
+            {
                 label: "District Label:",
                 name: "districts.district_label",
             }, {
@@ -274,7 +276,10 @@ editorDistrict.on('initSubmit',function(e,action){
     return false;
   }
   district_code = jQuery('#district_code_prefix').html()
-  district_code += jQuery('#district_code_entered').val();
+  //district_code += jQuery('#district_code_entered').val();
+  //
+  //*** Districts have an id but no code field. Inconsistency needs to be fixed between tables!!!
+  
   editorDistrict.field('districts.id').val(district_code);
   editorDistrict.field('districts.code').val(district_code);
   console.log('district_code calc',district_code);
@@ -320,6 +325,11 @@ editorCommunity.on('initSubmit',function(e,action){
   community_code = jQuery('#community_code_prefix').html();
   community_code += jQuery('#community_code_entered').val();
   editorCommunity.field('communities.id').val(community_code);
+  
+  //THis is a hacky line - shouldn't have the same id and code. ID should either be gone or be an auto-increment number.
+  editorCommunity.field('communities.code').val(community_code);
+
+
   console.log('community_code calc',community_code);
   return true;
 });
