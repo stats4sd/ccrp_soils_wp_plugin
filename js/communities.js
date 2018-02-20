@@ -276,12 +276,12 @@ editorDistrict.on('initSubmit',function(e,action){
     return false;
   }
   district_code = jQuery('#district_code_prefix').html()
-  //district_code += jQuery('#district_code_entered').val();
+  district_code += jQuery('#district_code_entered').val();
   //
   //*** Districts have an id but no code field. Inconsistency needs to be fixed between tables!!!
   
   editorDistrict.field('districts.id').val(district_code);
-  editorDistrict.field('districts.code').val(district_code);
+  //editorDistrict.field('districts.code').val(district_code);
   console.log('district_code calc',district_code);
   return true;
 });
