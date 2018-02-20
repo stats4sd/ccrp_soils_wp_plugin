@@ -276,6 +276,7 @@ editorDistrict.on('initSubmit',function(e,action){
   district_code = jQuery('#district_code_prefix').html()
   district_code += jQuery('#district_code_entered').val();
   editorDistrict.field('districts.id').val(district_code);
+  editorDistrict.field('districts_code').val(district_code);
   console.log('district_code calc',district_code);
   return true;
 });
