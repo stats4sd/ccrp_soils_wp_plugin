@@ -44,7 +44,10 @@ function soils_scripts() {
   
   wp_enqueue_style('select2-style',"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css","4.0.6");
   wp_enqueue_script('select2-script',"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js",array('jquery'),"4.0.6",true);
-
+  //Mustache and QR code dependancies
+  wp_enqueue_script( 'mustache-script', plugin_dir_url( __FILE__ ) . 'js/mustache.js/mustache.min.js', array( 'jquery' ), time(), true );
+  wp_enqueue_script( 'qr-script', plugin_dir_url( __FILE__ ) . 'js/qrcodejs/qrcode.min.js', array( 'jquery' ), time(), true );
+  wp_enqueue_script( 'jqueryprint-script', plugin_dir_url( __FILE__ ) . 'js/jquery-print.js', array( 'jquery' ), time(), true );
   
   // Different pages have additional scripts, so this section asks what template we're using and then queues the correct scripts for that page.
   //if template is soilsdash, enqueue the js file
@@ -80,10 +83,7 @@ function soils_scripts() {
     wp_localize_script('communities-script','vars',$params);
     wp_localize_script('farms-script','vars',$params);
 
-    //Mustache and QR code dependancies
-    wp_enqueue_script( 'mustache-script', plugin_dir_url( __FILE__ ) . 'js/mustache.js/mustache.min.js', array( 'jquery' ), time(), true );
-    wp_enqueue_script( 'qr-script', plugin_dir_url( __FILE__ ) . 'js/qrcodejs/qrcode.min.js', array( 'jquery' ), time(), true );
-    wp_enqueue_script( 'jqueryprint-script', plugin_dir_url( __FILE__ ) . 'js/jquery-print.js', array( 'jquery' ), time(), true );
+
 
   }
 

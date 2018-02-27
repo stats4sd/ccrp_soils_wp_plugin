@@ -144,24 +144,19 @@ function initialChildRow(data){
 function commChildRow(data) {
   //get barode to display:
   console.log(data.samples.id)
-          $.ajax({
-            url: vars.ajaxurl,
-            "type":'POST',
-            "dataType":"json",
-            "data":{
-              "action": 'get_single_barcode',
-              "nonce": vars.pa_nonce,
-              "value": data.samples.id
-            },
-            success: function(response) {
-              ress = response.data;
-              console.log("create_barcode response",ress);
-              $('#child-row-'+data.samples.id).html("<img src="+ress+"></img>");
-              // $('#child-row-'+community_id).append("<div>new barcode: <img src='"+data+"'></img></div>");
-            },
-            error: function(response){
-              $('#child-row-'+data.samples.id).html("error");
-            }
-          });
+
+  $('#child-row-'+data.samples.id).html("<div id='qr_"+ data.samples.id +"'></div>");
+
+
+  new QRCode(document.getElementById('qr_'+data.samples.id),{
+        text: data.samples.id,
+        width: 80,
+        height: 80,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+
+
   }
 });
