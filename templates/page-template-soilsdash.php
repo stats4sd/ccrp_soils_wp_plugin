@@ -17,12 +17,20 @@ get_header(); ?>
 
 
 <h1>Soil Sample Data</h1>
+<h4>Projects</h4>
+<p>Data is currently shown for your project(s): <span class='font-weight-bold' id="project_list"></span>
 <div class='alert alert-info'>
   <p>This page displays soil sample data for samples your project has collected. Any analysis data will also be available. If a particular analyis has not been conducted, those fields will be blank for the sample.</p>
   <p>To show or hide analysis results, use the "show/hide columns" button at the top of the table. You can download the sample data to a csv file for use in Excel or statistics package locally.</p>
+  <hr/>
+  <p>The data below may not include recent submissions. To manually sync the data from Kobotools, click the button below.</p>
+  <div id='update_records_button'></div>
 </div>
 
-  <div id='filters' class='card'>
+<div style='display:none;'>
+  <table id="projects_table"></table>
+</div>
+<!--   <div id='filters' class='card'>
     <div class="card-header">
       <h4>Table Filters</h4>
     </div>
@@ -38,7 +46,7 @@ get_header(); ?>
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
 
 <table id='DataTable' class='table table-striped'></table>
 

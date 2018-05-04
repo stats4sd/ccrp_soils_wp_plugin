@@ -1,0 +1,14 @@
+{
+  "name": "ccrp-soils-js",
+  "version": "1.0.0",
+  "dependencies": {
+    "mustache": "^2.3.0",
+    "popper.js": "^1.14.3",
+    "qrcodejs": "^1.0.0",
+    "select2": "^4.0.6-rc.1"
+  },
+  "description": "A set of JS packages for the CCRP Soils WordPress Plugin",
+  "main": "index.js",
+  "author": "Dave Mills",
+  "license": "MIT"
+}

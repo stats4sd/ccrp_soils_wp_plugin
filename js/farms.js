@@ -2,7 +2,7 @@ var editorFarm;
 jQuery(document).ready(function(){
   console.log("stats4sd-js Starting with farms");
 
-// Setup automatic redraw of datatables when you switch to a new Bootstrap tab 
+// Setup automatic redraw of datatables when you switch to a new Bootstrap tab
 // (workaround, see https://datatables.net/examples/api/tabs_and_scrolling.html)
 
 jQuery('a[data-toggle="tab"]').on( 'click', function (e) {
@@ -239,54 +239,3 @@ function initialFarmChildRow(data){
   return "<div id='child-row-" + data.farmers.id + "'><span class='fa fa-spinner-circle'></span>Loading</div>";
 }
 
-function setup_codeSheet(codes){
-  jQuery.get(vars.editorurl + '/farm_samplecodes.mst',function(template){
-    var rendered = Mustache.render(template,{
-      farmer_code:code,
-      farmer_name:name,
-      code0:codes[0],
-      code1:codes[1],
-      code2:codes[2],
-      code3:codes[3],
-      code4:codes[4],
-      code5:codes[5],
-      // code6:codes[6],
-      // code7:codes[7]
-    });
-    jQuery('#sample_sheet').html(rendered);
-    jQuery('#samplesheetmodal').modal('toggle');
-    //qr codes!
-    console.log("got mst");
-    
-    new QRCode(document.getElementById('farmer_qrcode'),{
-      text: code,
-      width: 80,
-      height: 80,
-      colorDark : "#000000",
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
-
-    for (i=0;i<6;i++) {
-      console.log('code ' + i,code+"00"+i);
-      new QRCode(document.getElementById('code'+i),{
-        text: codes[i],
-        width: 100,
-        height: 100,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-      });
-    }
-
-    //setup print button;
-    jQuery('#printbutton_'+code).click(function(){
-      console.log('print button clicked');
-      jQuery('#print_modal_'+code).printElement({
-        pageTitle:"SampleSheet_"+name+" - "+code,
-      });
-      
-
-    });
-  });
-}

@@ -1,0 +1,6 @@
+[submodule "yadcf"]
+	path = yadcf
+	url = git@github.com:vedmack/yadcf.git
+[submodule "DataTables_Editor"]
+	path = DataTables_Editor
+	url = git@bitbucket.org:dave_in_stats/datatables_editor-private.git

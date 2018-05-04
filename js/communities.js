@@ -347,9 +347,9 @@ function initialCommChildRow(data){
 }
 
 function setupCommCodeSheet(data,rdata){
-  //setup sheet for all farms in a community: 
+  //setup sheet for all farms in a community:
   
-  //calculate page break points: 
+  //calculate page break points:
   
  
   jQuery.get(vars.editorurl + "/multi-farm_samplecodes.mst", function(template){

@@ -1,0 +1,6 @@
+DataTables_Editor/*
+!DataTables_Editor/php/config.php
+
+*.DS_Store
+*._.*
+
